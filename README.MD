@@ -64,6 +64,5 @@ How can someone contribute to your open-source project?
 
 - They can fork the project, make changes in their fork, and submit a pull request to propose their changes.
 
-This is khasi branch.
+This is main branch.
 This is a change from github.
-
