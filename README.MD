@@ -66,3 +66,5 @@ What is Github Actions?
 What is GitHub Actions, and how does it help with CI?
 
 - GitHub Actions automates workflows like testing, building, and deploying code. It helps with Continuous Integration by automatically running tests and other checks every time code is pushed to the repository.
+
+change by daniyal
