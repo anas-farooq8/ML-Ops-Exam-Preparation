@@ -52,6 +52,13 @@ What is the difference between a Pull Request and a merge?
 
 - After successfully merging two branches through a PR, you need to pull the changes to the local repo from the remote repo using git pull.
 
+How can someone contribute to your open-source project?
+
+- They can fork the project, make changes in their fork, and submit a pull request to propose their changes.
+
+This is main branch.
+This is a change from github.
+
 What is Github Actions?
 
 - GitHub Actions is a tool to automate tasks in your software development lifecycle, such as Continuous Integration (CI) and Continuous Deployment (CD). It allows you to automatically build, test, and deploy your code after every commit.
@@ -59,10 +66,3 @@ What is Github Actions?
 What is GitHub Actions, and how does it help with CI?
 
 - GitHub Actions automates workflows like testing, building, and deploying code. It helps with Continuous Integration by automatically running tests and other checks every time code is pushed to the repository.
-
-How can someone contribute to your open-source project?
-
-- They can fork the project, make changes in their fork, and submit a pull request to propose their changes.
-
-This is main branch.
-This is a change from github.
