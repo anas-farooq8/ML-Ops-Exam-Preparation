@@ -66,3 +66,15 @@ What is Github Actions?
 What is GitHub Actions, and how does it help with CI?
 
 - GitHub Actions automates workflows like testing, building, and deploying code. It helps with Continuous Integration by automatically running tests and other checks every time code is pushed to the repository.
+
+What is Docker?
+
+- Docker is a platform used to develop, ship, and run applications in isolated environments called containers. It allows you to package an application and its dependencies into a single, self-contained unit that can run anywhere.
+
+What is Docker Hub?
+
+- Docker Hub is a cloud-based registry service that allows you to store, distribute, and share Docker images. Think of it as a GitHub for Docker images, where developers can upload images, and others can pull them for use.
+
+What is the primary purpose of Docker, and how does Docker Hub complement Docker?
+
+- Docker is used to create and run containers that bundle applications with their environments. Docker Hub stores and distributes Docker images, enabling easy sharing and deployment of applications.
