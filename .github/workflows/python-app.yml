@@ -3,7 +3,7 @@ name: Addition Program
 # on: [push, pull_request]
 on:
   push:
-    branches: ["main", "khasi1"]
+    branches: ["main"]
   pull_request:
     branches: ["main"]
 
