@@ -1,0 +1,56 @@
+<!-- templates/cars.html -->
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Car Inventory</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        background-color: #f0f8ff;
+        color: #333;
+        text-align: center;
+        padding: 20px;
+      }
+      h1 {
+        color: #2a7cbb;
+      }
+      table {
+        width: 50%;
+        margin: 0 auto;
+        border-collapse: collapse;
+        border: 1px solid #2a7cbb;
+      }
+      th,
+      td {
+        padding: 10px;
+        border: 1px solid #2a7cbb;
+      }
+      th {
+        background-color: #2a7cbb;
+        color: white;
+      }
+      tr:nth-child(even) {
+        background-color: #e9f5fb;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Car Inventory</h1>
+    <table>
+      <tr>
+        <th>ID</th>
+        <th>Model</th>
+        <th>Color</th>
+      </tr>
+      {% for car in cars %}
+      <tr>
+        <td>{{ car['id'] }}</td>
+        <td>{{ car['model'] }}</td>
+        <td>{{ car['color'] }}</td>
+      </tr>
+      {% endfor %}
+    </table>
+  </body>
+</html>

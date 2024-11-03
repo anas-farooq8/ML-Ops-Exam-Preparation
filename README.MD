@@ -268,24 +268,467 @@ pipeline {
 Jenkins Master-Slave Architecture
 In Jenkins, a master-slave architecture (also known as controller-agent) is used to distribute the workload across multiple machines, allowing efficient handling of complex and large-scale projects. Here’s a breakdown of the components and their roles:
 
-Master (Controller)
-The master (or controller) is the central Jenkins server.
-It is responsible for:
-Managing Jenkins configuration and user permissions.
-Scheduling jobs and assigning them to appropriate slaves.
-Executing jobs when required (although ideally, most jobs should run on slaves).
-Monitoring agents (slaves) and communicating with them.
-Processing results from jobs run on slaves and displaying them in the UI.
-Slave (Agent)
-Slaves (or agents) are machines configured to perform Jenkins jobs as directed by the master.
-They can run on different operating systems and are used to:
-Execute jobs assigned by the master, allowing parallel builds and tests.
-Run specialized jobs, such as tests that require specific hardware, software, or configurations.
-Offload the workload from the master, making the Jenkins environment scalable and distributed.
-A Jenkins environment can have multiple slaves, each with different configurations to handle specific tasks.
-Benefits of Master-Slave Architecture
-Scalability: Multiple slaves can handle a large volume of builds and tests simultaneously.
-Resource Optimization: Jobs can run on specific slaves with the necessary resources or configurations.
-Load Balancing: Distributes the processing load, improving the master server’s performance and response time.
+- Master (Controller)
+  The master (or controller) is the central Jenkins server.
+  It is responsible for:
+  Managing Jenkins configuration and user permissions.
+  Scheduling jobs and assigning them to appropriate slaves.
+  Executing jobs when required (although ideally, most jobs should run on slaves).
+  Monitoring agents (slaves) and communicating with them.
+  Processing results from jobs run on slaves and displaying them in the UI.
+- Slave (Agent)
+  Slaves (or agents) are machines configured to perform Jenkins jobs as directed by the master.
+  They can run on different operating systems and are used to:
+  Execute jobs assigned by the master, allowing parallel builds and tests.
+  Run specialized jobs, such as tests that require specific hardware, software, or configurations.
+  Offload the workload from the master, making the Jenkins environment scalable and distributed.
+  A Jenkins environment can have multiple slaves, each with different configurations to handle specific tasks.
+  Benefits of Master-Slave Architecture
+  Scalability: Multiple slaves can handle a large volume of builds and tests simultaneously.
+  Resource Optimization: Jobs can run on specific slaves with the necessary resources or configurations.
+  Load Balancing: Distributes the processing load, improving the master server’s performance and response time.
 
 Poll SCM for Changes : Configure job > Build Triggers > Poll SCM > Define cron syntax for interval
+
+Kubernetes
+Kubernetes Architecture
+Overview
+Kubernetes is an open-source container orchestration platform that automates the deployment, scaling, and management of containerized applications. It abstracts the underlying infrastructure, providing a robust platform for running applications in production environments.
+Core Components
+Master Node Components:
+• API Server: Exposes the Kubernetes API, acting as the front-end for the control plane.
+• etcd: A distributed key-value store that stores all cluster data.
+• Controller Manager: Runs controllers that regulate the state of the cluster.
+• Scheduler: Assigns pods to nodes based on resource availability and policies.
+Worker Node Components:
+• kubelet: An agent that ensures containers are running in pods.
+• kube-proxy: Manages network routing to pods.
+• Container Runtime: Software (e.g., Docker, containerd) that runs containers.
+Detailed Explanation
+Kubernetes Architecture:
+• Master Node:
+o API Server: Central point of interaction for managing the cluster.
+o etcd: Ensures cluster state is stored reliably.
+o Controller Manager: Handles various controllers like Node Controller, Replication Controller.
+o Scheduler: Determines which node should run a pod based on resource needs.
+• Worker Node:
+o kubelet: Communicates with the API server, manages pod lifecycle.
+o kube-proxy: Facilitates networking by managing IP tables.
+o Container Runtime: Executes container images, e.g., Docker.
+Ingress vs. NodePort:
+• Ingress:
+o Manages external HTTP/HTTPS access to services.
+o Provides features like load balancing, SSL termination, and name-based virtual hosting.
+o Requires an Ingress Controller.
+• NodePort:
+o Exposes a service on a static port on each node’s IP.
+o Accessible externally via NodeIP:NodePort.
+o Simpler but less flexible compared to Ingress.
+
+Pods: The smallest deployable units in Kubernetes, encapsulating one or more containers with shared storage/networking.
+
+ReplicaSets: Ensures that a specified number of pod replicas are running at all times, allowing for scaling and availability.
+
+Deployments: A higher-level abstraction that manages ReplicaSets and provides declarative updates to applications.
+
+Services: An abstraction that defines a logical set of pods and a policy by which to access them. Services enable stable networking for pods.
+
+Ingress: Manages external access to services, typically HTTP, and can provide load balancing and SSL termination.
+
+YAML Files in Kubernetes:
+YAML files define Kubernetes resources like pods, services, deployments, and ingress. They specify the desired state, configurations, and relationships between resources.
+Pros and Advantages of Kubernetes:
+• Scalability: Automatically scales applications based on demand.
+• Self-Healing: Restarts failed containers, replaces and reschedules pods.
+• Declarative Configuration: Manage infrastructure as code for consistency and versioning.
+• Service Discovery and Load Balancing: Automatically assigns IPs and balances traffic.
+• Portability: Runs on various environments (on-premises, cloud).
+Sample Questions
+Q11. (3 Marks) Explain the importance of Ingress in Kubernetes by using a diagram.
+Answer:
+Ingress manages external access to services within a Kubernetes cluster, typically HTTP/HTTPS traffic. It provides advanced routing capabilities, SSL termination, and load balancing, enabling scalable and secure access to applications.
+(Note: Insert a diagram showing Ingress routing traffic to multiple services.)
+Q12. (4 Marks) Briefly explain how Kubernetes maintains the status of the cluster according to the configuration file. Mention different scenarios and how they are handled by Kubernetes.
+Answer:
+Kubernetes continuously monitors the actual state of the cluster against the desired state defined in configuration files. If discrepancies arise, Kubernetes takes corrective actions to reconcile them.
+Scenarios:
+
+1. Pod Failure:
+   o Desired State: 3 replicas running.
+   o Actual State: 2 replicas running.
+   o Action: Kubernetes schedules a new pod to meet the desired state.
+2. Node Failure:
+   o Desired State: Pods distributed across nodes.
+   o Actual State: Nodes unavailable.
+   o Action: Kubernetes reschedules pods on healthy nodes.
+3. Scaling:
+   o Desired State: Increase replicas to 5.
+   o Actual State: Currently 3 replicas.
+   o Action: Kubernetes creates 2 additional pods.
+
+Kubernetes Architecture Overview
+Kubernetes is an open-source container orchestration platform designed to automate the deployment, scaling, and management of containerized applications. It provides a robust framework for managing applications in a microservices architecture, enabling applications to run in a highly available and scalable manner.
+
+Key Components of Kubernetes Architecture
+Master Node: The control plane of a Kubernetes cluster, responsible for managing the state of the cluster. It consists of several components:
+
+API Server: The interface for all interactions with the Kubernetes cluster. It processes REST requests and updates the cluster state.
+Controller Manager: Maintains the desired state of the cluster. It manages controllers that handle the routine tasks in the cluster, such as replication and node management.
+Scheduler: Assigns newly created pods to nodes based on resource availability and constraints.
+etcd: A distributed key-value store that holds the configuration data and state of the Kubernetes cluster.
+Worker Node: Where the applications (containers) are actually run. Each worker node has:
+
+Kubelet: An agent that runs on each node, responsible for managing the containers on the node and communicating with the API server.
+Kube Proxy: Maintains network rules for pod communication and load balancing.
+Container Runtime: Software responsible for running containers (e.g., Docker, containerd).
+Pods: The smallest deployable units in Kubernetes, encapsulating one or more containers with shared storage/networking.
+
+ReplicaSets: Ensures that a specified number of pod replicas are running at all times, allowing for scaling and availability.
+
+Deployments: A higher-level abstraction that manages ReplicaSets and provides declarative updates to applications.
+
+Services: An abstraction that defines a logical set of pods and a policy by which to access them. Services enable stable networking for pods.
+
+Ingress: Manages external access to services, typically HTTP, and can provide load balancing and SSL termination.
+
+Volumes: Persistent storage abstractions that allow data to persist beyond the lifecycle of a pod.
+
+Kubernetes Configuration Files
+Kubernetes uses YAML or JSON files to define the desired state of the system. Here’s a breakdown of different parts of the Kubernetes configuration files:
+
+apiVersion: Defines the version of the Kubernetes API to use for the object (e.g., apps/v1 for deployments).
+
+kind: Specifies the type of Kubernetes object (e.g., Deployment, Service, Pod).
+
+metadata: Provides data that helps uniquely identify the object, such as name, namespace, and labels.
+
+spec: The specification of the desired behavior of the object. It contains various fields depending on the kind of object being defined:
+
+For a Deployment, it includes replicas, selector, and template.
+For a Service, it includes selector, ports, and type.
+status: This is automatically populated by Kubernetes and reflects the current state of the object.
+
+Kubernetes Architecture Overview
+Kubernetes is an open-source container orchestration platform designed to automate the deployment, scaling, and management of containerized applications. It provides a robust framework for managing applications in a microservices architecture, enabling applications to run in a highly available and scalable manner.
+
+Key Components of Kubernetes Architecture
+Master Node: The control plane of a Kubernetes cluster, responsible for managing the state of the cluster. It consists of several components:
+
+API Server: The interface for all interactions with the Kubernetes cluster. It processes REST requests and updates the cluster state.
+Controller Manager: Maintains the desired state of the cluster. It manages controllers that handle the routine tasks in the cluster, such as replication and node management.
+Scheduler: Assigns newly created pods to nodes based on resource availability and constraints.
+etcd: A distributed key-value store that holds the configuration data and state of the Kubernetes cluster.
+Worker Node: Where the applications (containers) are actually run. Each worker node has:
+
+Kubelet: An agent that runs on each node, responsible for managing the containers on the node and communicating with the API server.
+Kube Proxy: Maintains network rules for pod communication and load balancing.
+Container Runtime: Software responsible for running containers (e.g., Docker, containerd).
+Pods: The smallest deployable units in Kubernetes, encapsulating one or more containers with shared storage/networking.
+
+ReplicaSets: Ensures that a specified number of pod replicas are running at all times, allowing for scaling and availability.
+
+Deployments: A higher-level abstraction that manages ReplicaSets and provides declarative updates to applications.
+
+Services: An abstraction that defines a logical set of pods and a policy by which to access them. Services enable stable networking for pods.
+
+Ingress: Manages external access to services, typically HTTP, and can provide load balancing and SSL termination.
+
+Volumes: Persistent storage abstractions that allow data to persist beyond the lifecycle of a pod.
+
+Kubernetes Configuration Files
+Kubernetes uses YAML or JSON files to define the desired state of the system. Here’s a breakdown of different parts of the Kubernetes configuration files:
+
+apiVersion: Defines the version of the Kubernetes API to use for the object (e.g., apps/v1 for deployments).
+
+kind: Specifies the type of Kubernetes object (e.g., Deployment, Service, Pod).
+
+metadata: Provides data that helps uniquely identify the object, such as name, namespace, and labels.
+
+spec: The specification of the desired behavior of the object. It contains various fields depending on the kind of object being defined:
+
+For a Deployment, it includes replicas, selector, and template.
+For a Service, it includes selector, ports, and type.
+status: This is automatically populated by Kubernetes and reflects the current state of the object.
+
+Multiple Pods Upping in Kubernetes
+To scale applications in Kubernetes, you can define the number of replicas in a deployment configuration. The spec.replicas field in the deployment YAML file specifies how many pod instances should be running. For example:
+
+yaml
+Copy code
+spec:
+replicas: 3 # This will create 3 pods
+How Kubernetes Maintains the Cluster State
+Kubernetes continuously monitors the state of the cluster to ensure that it matches the desired state defined in the configuration files. This is achieved through a control loop mechanism where the control plane continuously compares the desired state (as defined in YAML files) to the actual state (as reflected in the cluster). If a discrepancy is detected, Kubernetes takes corrective action.
+
+Scenarios and How Kubernetes Handles Them
+Node Failure: If a node goes down, Kubernetes will detect the failure through the health checks performed by the kubelet. It will automatically reschedule the pods that were running on the failed node to other healthy nodes.
+
+Pod Crash: If a pod crashes, the kubelet will restart it automatically. This is part of the self-healing capability of Kubernetes.
+
+Scaling Up/Down: When you update a deployment to change the number of replicas, the Kubernetes scheduler will create or terminate pods as necessary to meet the desired count.
+
+Resource Constraints: If a pod consumes too many resources and is evicted from a node due to insufficient resources, Kubernetes will attempt to schedule the pod on a different node with sufficient resources.
+
+Importance of Ingress
+Ingress is an API object that manages external access to the services in a Kubernetes cluster, typically HTTP. It provides several key benefits:
+
+Routing: Ingress allows you to define rules for routing traffic to different services based on URL paths or hostnames.
+SSL Termination: Ingress can handle SSL/TLS termination, allowing you to manage certificates centrally.
+Load Balancing: It can provide load balancing for incoming requests, distributing traffic across multiple pods.
+
+StatefulSet in Kubernetes
+A StatefulSet is a Kubernetes controller that manages the deployment and scaling of a set of pods, and it provides guarantees about the ordering and uniqueness of these pods. StatefulSets are particularly useful for applications that require persistent storage and stable network identities, such as databases, key-value stores, and other applications that maintain state.
+
+Key Features of StatefulSets:
+Stable Network Identity: Each pod in a StatefulSet has a unique, stable network identifier that does not change when the pod is rescheduled. The pods are addressed by their hostname, which is derived from the StatefulSet's name and the ordinal number of the pod (e.g., web-0, web-1, etc.).
+
+Persistent Storage: StatefulSets can use persistent storage volumes associated with each pod. When a pod is created, it can dynamically provision a PersistentVolumeClaim (PVC) that is tied to the pod's identity.
+
+Ordered Deployment and Scaling: StatefulSets ensure that pods are started, stopped, and scaled in a defined order. For example, when scaling up, a StatefulSet creates new pods in order from 0 to N-1, and when scaling down, it removes them in reverse order.
+
+Rolling Updates: StatefulSets support rolling updates, allowing for controlled updates to pods without downtime.
+
+Creating a StatefulSet for a Database
+When using StatefulSets to create pods for a database, the typical approach involves defining a StatefulSet resource that specifies the database configuration, including the persistent volume claims for data storage. Here's an example of how you might define a StatefulSet for a MySQL database:
+
+```bash
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: my-ingress
+spec:
+  rules:
+  - host: myapp.example.com
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: my-service
+            port:
+              number: 80
+```
+
+NodePort and Ingress in Kubernetes
+NodePort and Ingress are two methods to expose services in Kubernetes.
+
+NodePort
+A NodePort is a way to expose a service on a static port on each node's IP address. When you create a service of type NodePort, Kubernetes allocates a port from a range (default is 30000-32767) and routes traffic from that port on the node to the service.
+This is useful for direct access to your application from outside the cluster but may not be ideal for production environments, as it exposes all nodes and requires manual load balancing.
+
+```bash
+apiVersion: v1
+kind: Service
+metadata:
+  name: my-service
+spec:
+  type: NodePort
+  ports:
+    - port: 80
+      targetPort: 8080
+      nodePort: 30001
+  selector:
+    app: my-app
+
+```
+
+Ingress
+Ingress is a powerful way to manage external access to services in a Kubernetes cluster, providing HTTP and HTTPS routing to services based on host and path.
+It allows you to define rules for routing requests to different services and can handle SSL termination and load balancing.
+Ingress controllers (such as Nginx Ingress Controller or Traefik) are required to manage Ingress resources.
+Example of Ingress Resource:
+
+```bash
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: my-ingress
+spec:
+  rules:
+  - host: myapp.example.com
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: my-service
+            port:
+              number: 80
+
+```
+
+Summary
+StatefulSets are used to manage stateful applications, ensuring stable identities and persistent storage.
+NodePort allows access to services via static ports on each node but has limitations for production.
+Ingress provides a flexible way to route traffic to services and is suitable for handling HTTP/S requests in a more controlled manner.
+
+## Table of Contents
+
+- [Prerequisites](#prerequisites)
+- [Setup Steps](#setup-steps)
+- [Accessing PHPMyAdmin](#accessing-phpmyadmin)
+- [Flask Application Setup](#flask-application-setup)
+- [Conclusion](#conclusion)
+
+## Prerequisites
+
+- **Minikube**: Ensure that you have Minikube installed and running.
+- **Kubectl**: You should have kubectl installed to interact with your Kubernetes cluster.
+- **Docker**: Docker must be installed for image handling.
+
+## Setup Steps
+
+### Step 1: Starting Minikube
+
+```bash
+minikube start
+```
+
+### Step 2: Pulling Docker Images in Minikube
+
+Since Minikube uses a local Docker registry, we’ll need to pull the images for MySQL and PHPMyAdmin.
+
+```bash
+minikube ssh docker pull mysql
+minikube ssh docker pull phpmyadmin
+```
+
+### Viewing Docker Images in Minikube
+
+When using Minikube, Docker images are pulled into Minikube's internal Docker environment rather than your local Docker daemon.
+
+```bash
+minikube ssh docker images
+```
+
+### Step 3: Creating a Secret for MySQL Credentials
+
+Create a Kubernetes Secret to store the MySQL root password securely. This secret will be referenced by the MySQL deployment for authentication.
+
+```bash
+kubectl apply -f mysql-secret.yaml
+kubectl get secrets
+```
+
+### Step 4: Creating the MySQL Deployment
+
+Define a MySQL deployment configuration where the secret created for the root password is referenced, along with environment variables for the database name, username, and password.
+
+```bash
+kubectl apply -f mysql-deployment.yaml
+kubectl get deployment
+```
+
+### Step 5: Defining the MySQL Service
+
+```bash
+kubectl apply -f mysql-service.yaml
+kubectl get service
+```
+
+### Step 6: Creating the PHPMyAdmin Deployment
+
+```bash
+kubectl apply -f phpmyadmin-deployment.yaml
+kubectl get deployment
+```
+
+### Step 7: Creating a Service for PHPMyAdmin
+
+```bash
+kubectl apply -f phpmyadmin-service.yaml
+kubectl get service
+```
+
+### Step 8: Accessing PHPMyAdmin
+
+1. Run the following command to get the PHPMyAdmin service URL:
+
+```bash
+minikube service phpmyadmin-service --url
+```
+
+2. Log in to PHPMyAdmin using:
+
+```bash
+Username: testuser (the MySQL user)
+Password: testpass (the MySQL user password)
+```
+
+## Flask Application Setup
+
+After testing PHPMyAdmin, we created a Flask application to interact with the MySQL database. The following steps were taken:
+
+### Step 1: Creating the Flask Application
+
+Developed a simple Flask application (`app.py`) to fetch data from the MySQL database.
+
+### Step 2: Creating the Dockerfile
+
+A Dockerfile was created to containerize the Flask application:
+
+```dockerfile
+FROM python:3.8-slim
+
+WORKDIR /app
+
+# Install Flask and MySQL connector
+RUN pip install flask mysql-connector-python
+
+# Copy the app code and templates folder
+COPY app.py .
+COPY templates/ templates/
+
+# Set the environment variable for Flask
+ENV FLASK_APP=app.py
+
+# Expose port 5000 for the app
+EXPOSE 5000
+
+# Start the app
+CMD ["flask", "run", "--host=0.0.0.0", "--port=5000"]
+```
+
+### Step 3: Building the Docker Image
+
+The Docker image was built using the following command:
+
+```bash
+docker build -t mysql-data-loader .
+```
+
+### Step 4: Loading the Image into Minikube
+
+The image was loaded into Minikube with the following command:
+
+```bash
+minikube image load mysql-data-loader
+```
+
+### Step 5: Creating the Flask Application Deployment
+
+A deployment for the Flask application was created in Kubernetes.
+
+```bash
+kubectl apply -f flask-deployment.yaml
+kubectl get deployment
+```
+
+### Step 6: Creating an External Service for the Flask Application
+
+An external service was created to expose the Flask application.
+
+```bash
+kubectl apply -f flask-service.yaml
+kubectl get service
+```
+
+### Step 7: Testing the Flask Application
+
+Tested the Flask application, which successfully fetched data from the MySQL database.
+
+## Conclusion
+
+You now have a fully functional MySQL setup running on Kubernetes, along with PHPMyAdmin for easy database management and a Flask application for data interaction. You can customize this setup further by adjusting the configurations as needed.

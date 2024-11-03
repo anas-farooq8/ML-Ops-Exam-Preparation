@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: phpmyadmin-service
+  labels:
+    app: phpmyadmin
+spec:
+  selector:
+    app: phpmyadmin # Matches the phpMyAdmin pod label
+  ports:
+    - protocol: TCP
+      port: 80 # Exposes port 80 for HTTP access
+      targetPort: 80 # PHPMyAdmin container port
+  type: LoadBalancer # Exposes PHPMyAdmin externally

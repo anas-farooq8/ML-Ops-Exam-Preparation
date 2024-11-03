@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: mysql-service
+  labels:
+    app: mysql
+spec:
+  selector:
+    app: mysql # Matches the app label from the MySQL pod
+  ports:
+    - protocol: TCP
+      port: 3306 # Port accessible to PHPMyAdmin
+      targetPort: 3306 # MySQL container port
+  type: ClusterIP # Internal service for within-cluster access only
